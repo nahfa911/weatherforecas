@@ -25,9 +25,9 @@ cityweather <- setRefClass('cityweather'
                , methods = list(
                  initialize = function(cityname, key = '3c656bd3014279a8f41b90522c014977'){
                    "Getting the data from API"
-                   if(httr::status_code(resp)==404){stop("This city does not exist!")}
-                   resp <- httr::GET(paste0('http://api.openweathermap.org/data/2.5/forecast?q=',cityname,
+                    resp <- httr::GET(paste0('http://api.openweathermap.org/data/2.5/forecast?q=',cityname,
                                             '&cnt=9&units=metric&appid=', key))
+                   if(httr::status_code(resp)==404){stop("This city does not exist!")}
                    if(httr::http_type(resp) != 'application/json'){stop('Response is not in json format!', call. = FALSE)}
                    if(httr::http_error(resp)){stop(
                      sprintf('The server responded with this error:\n[%s]\n%s\n<%s>'
