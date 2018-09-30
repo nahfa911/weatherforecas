@@ -1,6 +1,6 @@
 #' cityweather
 #'
-#' This object can connect to the openweathermap API and get the 7 days
+#' This object can connect to the openweathermap API and get the 24 hours
 #' forecasting of the desired city. For more information about this API
 #' see the link bellow :
 #' \url{https://openweathermap.org/}
@@ -28,7 +28,7 @@ cityweather <- setRefClass('cityweather'
                    `%not_in%` <- purrr::negate(`%in%`)
                    if(tolower(cityname) %not_in% tolower(city_list$name)){stop('This city does not exist!', call. = FALSE)}
                    resp <- httr::GET(paste0('http://api.openweathermap.org/data/2.5/forecast?q=',cityname,
-                                            '&cnt=7&units=metric&appid=', key))
+                                            '&cnt=9&units=metric&appid=', key))
                    if(httr::http_type(resp) != 'application/json'){stop('Response is not in json format!', call. = FALSE)}
                    if(httr::http_error(resp)){stop(
                      sprintf('The server responded with this error:\n[%s]\n%s\n<%s>'
