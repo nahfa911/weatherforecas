@@ -9,5 +9,4 @@
 #'
 #' @name city_list
 #'
-#'
 'city_list'

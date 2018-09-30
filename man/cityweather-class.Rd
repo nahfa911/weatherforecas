@@ -6,7 +6,7 @@
 \alias{cityweather}
 \title{cityweather}
 \description{
-This object can connect to the openweathermap API and get the 7 days
+This object can connect to the openweathermap API and get the 24 hours
 forecasting of the desired city. For more information about this API
 see the link bellow :
 \url{https://openweathermap.org/}
