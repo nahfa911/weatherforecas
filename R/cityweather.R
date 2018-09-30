@@ -29,12 +29,12 @@ cityweather <- setRefClass('cityweather'
                    if(tolower(cityname) %not_in% tolower(city_list$name)){stop('This city does not exist!', call. = FALSE)}
                    resp <- httr::GET(paste0('http://api.openweathermap.org/data/2.5/forecast?q=',cityname,
                                             '&cnt=7&units=metric&appid=', key))
-                   if(http_type(resp) != 'application/json'){stop('Response is not in json format!', call. = FALSE)}
-                   if(http_error(resp)){stop(
+                   if(httr::http_type(resp) != 'application/json'){stop('Response is not in json format!', call. = FALSE)}
+                   if(httr::http_error(resp)){stop(
                      sprintf('The server responded with this error:\n[%s]\n%s\n<%s>'
-                             ,status_code(resp)
-                             ,content(resp)$message
-                             ,content(resp)$documentation_url)
+                             ,httr::status_code(resp)
+                             ,httr::content(resp)$message
+                             ,httr::content(resp)$documentation_url)
                      , call. = FALSE
                    )}
                    content <<- jsonlite::fromJSON(httr::content(resp,'text'))
@@ -57,5 +57,6 @@ cityweather <- setRefClass('cityweather'
 #' @importFrom httr content
 #' @importFrom httr status_code
 #' @importFrom httr http_error
+#' @importFrom httr http_type
 #' @importFrom jsonlite fromJSON
 NULL
