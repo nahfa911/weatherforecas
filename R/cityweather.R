@@ -20,42 +20,38 @@ cityweather <- setRefClass('cityweather',
                                          content = "list",
                                          status_code = "integer",
                                          has_error = "logical"),
+                           methods = list(
+                             initialize = function(cityname, key = '3c656bd3014279a8f41b90522c014977') {
+                               "Getting the data from API"
+                               resp <- httr::GET(paste0('http://api.openweathermap.org/data/2.5/forecast?q=',
+                                                        cityname, '&cnt=9&units=metric&appid=', key))
 
-                          methods = list(
-                            initialize = function(cityname, key = '3c656bd3014279a8f41b90522c014977') {
-                              "Getting the data from API"
-                              resp <- httr::GET(paste0('http://api.openweathermap.org/data/2.5/forecast?q=',
-                                                     cityname,
-                                                     '&cnt=9&units=metric&appid=',
-                                                     key))
+                               if(httr::status_code(resp) == 404) {
+                                 stop("This city does not exist!")
+                               }
+                               if(httr::http_type(resp) != 'application/json') {
+                                 stop('Response is not in json format!', call. = FALSE)
+                               }
+                               if(httr::http_error(resp)){
+                                 stop(sprintf('The server responded with this error:\n[%s]\n%s\n<%s>',
+                                              httr::status_code(resp),
+                                              httr::content(resp)$message,
+                                              httr::content(resp)$documentation_url),
+                                      call. = FALSE)
+                               }
 
-                              if(httr::status_code(resp) == 404) {
-                                stop("This city does not exist!")
-                              }
-                              if(httr::http_type(resp) != 'application/json') {
-                                stop('Response is not in json format!', call. = FALSE)
-                              }
-                              if(httr::http_error(resp)){
-                                stop(
-                                  sprintf('The server responded with this error:\n[%s]\n%s\n<%s>',
-                                          httr::status_code(resp),
-                                          httr::content(resp)$message,
-                                          httr::content(resp)$documentation_url),
-                                  call. = FALSE)
-                              }
+                               content <<- jsonlite::fromJSON(httr::content(resp,'text'))
+                               cityname <<- cityname
+                               status_code <<- httr::status_code(resp)
+                               has_error <<- httr::http_error(resp)
+                            },
 
-                              content <<- jsonlite::fromJSON(httr::content(resp,'text'))
-                              cityname <<- cityname
-                              status_code <<- httr::status_code(resp)
-                              has_error <<- httr::http_error(resp)
-                          },
-
-                          print = function() {
-                            "Print out the structure of response content"
-                            cat('The structure of response content:\n')
-                            str(content)
-                          }
-                      )
+                            print = function() {
+                              "Print out the structure of response content"
+                              cat('The structure of response content:\n')
+                              str(content)
+                            }
+                          )
 )
 
 #' @importFrom httr GET
