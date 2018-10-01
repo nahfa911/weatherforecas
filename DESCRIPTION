@@ -3,9 +3,12 @@ Type: Package
 Title: OpenWeatherMap API client package
 Depends: R (>= 2.10)
 Version: 0.1.0
-Author: Nahid Farazmand
+Author: c(
+  person("Min-Chun","Shih","mcshihs@gmail.com", role = c("cre","aut")),
+  person("Nahid","Farazmand","nahidfarazmand@gmail.com", role = c("cre","aut")),
+  person("Yusur","Al-Mter","yusur.mutair@gmail.com", role = c("cre","aut")))
 Maintainer: Nahid Farazmand <nahidfarazmand@gmail.com>
-Description: This package is a R client for OpenWeatherMap API.
+Description: This package is an R client for OpenWeatherMap API.
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
