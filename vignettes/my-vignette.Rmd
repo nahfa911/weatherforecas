@@ -1,0 +1,94 @@
+---
+title: "Weatherforecast API"
+author: "Group 4"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Weatherforecast API}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Open Weather API
+
+In this package we are implementing a package which is calling a Web API called Open weather map using R programming language. The package calls JSON format data from the site https://openweathermap.org/api. For this purpose we first got our API key from openweathermap and then after authentication we called our API in our package.
+
+The first step in the implementation is importing a library called httr which is designed to map closely to the underlying http protocol.
+
+```{r,eval=FALSE}
+library(httr)
+r <- GET("https://openweathermap.org/api")
+```
+
+
+As a second step we are initializing are function and creating a dataframe called df.
+
+We are calling fields in the data frame from our openweathermap API which are:
+
+#### cityname = "character"
+#### content = "list"
+#### status_code = "integer"
+#### has_error = "logical"
+
+The package also include different functions which are using data from openweathermap API for data analysis and perform different functions on the data. Which are as follow:
+
+print()
+
+initialize()
+
+## Shiny Application
+
+Shiny is an R package that makes it easy to build interactive web apps straight from R. You can host standalone apps on a webpage or embed them in R Markdown documents or build dashboards. You can also extend your Shiny apps with CSS themes, htmlwidgets, and JavaScript actions.
+
+We are using shiny R package in another package to call the data from our openweathermap api and show that in graphical interface with interactive widgets we are using plotly for this purpose in which we are using  plot_mapbox function to plot our map and to show our city temperature with respect to time and date.
+
+For User Interface we are using Text Box for our user to write the city name.
+
+## Example
+
+```{r}
+MAPBOX_TOKEN <- Sys.setenv('MAPBOX_TOKEN'='pk.eyJ1IjoibmFoZmE5MTEiLCJhIjoiY2ptZXp4ZmlqMGJvYzN3bnZxcWwzM3JsYiJ9.IgE2DjVkNUjg5tdl4oCX1A')
+
+cityob <- weatherforecast::cityweather$new('Baghdad')
+    data <- cbind(as.data.frame(cityob$content$city),cityob$content$list[1,])
+    plotly::add_markers(hoverinfo = 'text'
+                ,text = ~paste0(name,'<br>',country,'<br>','long: ',coord.lon,'<br>'
+                                ,'lat: ',coord.lat
+                                ,'<br>','temp: ',data$main$temp
+                                ,'<br>','humidity: ',data$main$humidity),color = I("red3")
+                ,p = plotly::plot_mapbox(x= ~coord.lon,y =~coord.lat,data = data
+                ) 
+    )
+
+```
+
+
+```{r}
+ cityob <- weatherforecast::cityweather$new('Baghdad')
+    data <- cityob$content$list
+    plotly::layout(showlegend = FALSE,width = 500,xaxis = list(
+      title = 'date and time',tickangle = 45
+    ), yaxis = list(title='tempreture'),  plotly::add_lines(p = plotly::add_markers(
+      hoverinfo = 'text', text = ~paste(main$temp,'°C')
+      , p = plotly::plot_ly(x = ~dt_txt
+                    ,y = ~main$temp
+                    ,data = data))))
+  
+```
+
+
+We will be using the following to make our shiny application work properly:
+
+```{r,eval=FALSE}
+library(shiny)
+devtools::install_github('nahfa911/weatherforecas')
+library(weatherforecas)
+```
+
