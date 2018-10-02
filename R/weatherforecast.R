@@ -7,6 +7,6 @@
 #'
 #' @name weatherforecast
 #'
-#' @author Nahid Farazmand
+#' @author Group 4
 #'
 NULL

@@ -32,12 +32,12 @@ The chosen API is about weather forecast available for 5 days at any location or
 
 ### Depends
 
-This package depends on three other packages:
+This package depends on two other packages:
 
 ```{r, eval=FALSE}
 library(httr)
 library(jsonlite)
-library(plotly)
+
 ```
 
 ### About Package
@@ -57,13 +57,6 @@ Respsone_Data <- httr::GET(paste0('http://api.openweathermap.org/data/2.5/foreca
                                             '&cnt=9&units=metric&appid=', key))
 ```
 
-The package provides an RC class named **cityweather** to use weather data.
-In order to create an object of class, you need to give a character name of the city you want to analyze. 
-
-```{r, eval=FALSE}
-weatherforecast::cityweather$new('Baghdad')
-```
-
 ## Request
 
 **cityweather()** requires 2 parameters.
@@ -72,24 +65,52 @@ weatherforecast::cityweather$new('Baghdad')
 
 *cityname* = A city name for which the user wants to see the weather.
 
+The package provides an RC class named **cityweather** used to analyze Open Weather Map data. User can retrieve a city data from the API by calling the following lines of code.
+
+In order to create an object of class, you need to give a character name of the city you want to analyze. 
+
+```{r, eval=FALSE}
+City_Forecast_Object <- weatherforecast::cityweather$new("London")
+
+```
+
+ The package returns the following data:
+
+**list** content of cities i.e. temperature, latitude, longitude, Max temperature etc.
+```{r, eval=FALSE}
+City_Forecast_Object$content$list
+
+```
+
+**message** from the API about the data content.
+```{r, eval=FALSE}
+City_Forecast_Object$content$message
+
+```
+
+
 ## Validation 
 
 In this step we are initializing our methods and implementing some checks for validating our API data which are:
 
 ```{r, eval=FALSE}
-httr::status_code(Respsone_Data) == 404
+City_Forecast_Object$status_code
+
 ```
 
-For checking the response code. It Extract status code from response. **200** response code is for proper data whereas **404** is for error.
+**status_code** For checking the response code. It Extract status code from response. **200** response code is for proper data whereas **404** is for error.
 
 ```{r, eval=FALSE}
-httr::http_type(Respsone_Data) != 'application/json'
+City_Forecast_Object$type 
+
+# != 'application/json'
 ```
 
-For checking the type of data. It Extract Content type of the response. Here we are checking if our data is of JSON format or not.
+**content_type** For checking the type of data. It Extract Content type of the response. Here we are checking if our data is of JSON format or not.
 
 ```{r, eval=FALSE}
-httr::http_error(Respsone_Data)
+City_Forecast_Object$has_error
+
 ```
 
-This part checks for an http error. It returns TRUE if the request fails (status code 400 or above), otherwise FALSE.
+**has_error** This part checks for an HTTP error. It returns TRUE if the request fails (status code 400 or above), otherwise FALSE.
