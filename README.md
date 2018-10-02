@@ -11,5 +11,5 @@ detalis about the API:
 ##### To install the package use the command bellow:
 
 ```{r eval = FALSE}
-devtools::install_github('nahfa911/weatherforecas')
+devtools::install_github('nahfa911/weatherforecas', build_vignettes = TRUE)
 ```
