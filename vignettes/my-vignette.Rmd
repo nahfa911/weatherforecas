@@ -26,6 +26,20 @@ library(weatherforecas)
 ```
 
 ## Open Weather Map API
+There are two ways to open up the shinyapp.
+
+**1. Download the weather shinyapp package**
+```{r, eval = FALSE}
+devtools::install_github('nahfa911/shinyweather')
+runshinyweather()
+```
+
+**2. Run by `runGigHub` function**
+```{r, eval = FALSE}
+# run shinyapp
+library(shiny)
+runGitHub("shinyweather", "nahfa911")
+```
 
 This package is about working with Web API. The package establish a connection with Web API called Open weather map using R programming language. 
 The chosen API is about weather forecast available for 5 days at any location or city, and it includes weather data every 3 hours.
