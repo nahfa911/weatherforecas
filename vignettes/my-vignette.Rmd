@@ -21,8 +21,8 @@ knitr::opts_chunk$set(
 To install this package you can use the code below:
 
 ```{r,eval=FALSE}
-devtools::install_github('nahfa911/weatherforecas')
-library(weatherforecas)
+devtools::install_github('nahfa911/weatherforecas', build_vignettes = TRUE)
+library(weatherforecast)
 ```
 
 ## Open Weather Map API
